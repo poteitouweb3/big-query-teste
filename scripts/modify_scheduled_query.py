@@ -1,4 +1,5 @@
 from google.cloud import bigquery_datatransfer_v1 as bqdts
+from google.protobuf import field_mask_pb2
 import google.auth
 import os
 
@@ -28,11 +29,11 @@ if scheduled_query_name is None:
 transfer_configs = client.list_transfer_configs(parent=parent)
 for transfer_config in transfer_configs:
     if transfer_config.display_name == scheduled_query_name:
-        # Prepare the update mask and the new transfer config object
-        update_mask = bqdts.field_mask_pb2.FieldMask(paths=["params"])
+        # Prepare o update mask e o novo objeto transfer config
+        update_mask = field_mask_pb2.FieldMask(paths=["params"])
         transfer_config.params["query"] = sql  # Set the SQL query in params
         
-        # Create the UpdateTransferConfigRequest
+        # Cria o UpdateTransferConfigRequest
         update_request = bqdts.UpdateTransferConfigRequest(
             transfer_config=transfer_config,
             update_mask=update_mask
