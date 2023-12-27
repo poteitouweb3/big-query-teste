@@ -3,32 +3,29 @@ name: Deploy BigQuery Queries
 on:
   push:
     branches:
-      - main # Isso indica que o workflow será executado em pushes para a branch 'main'
+      - main
 
 jobs:
   deploy_queries:
-    runs-on: ubuntu-latest # Especifica que o job será executado no último Ubuntu disponível
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3 # Faz checkout do código do seu repositório
+        uses: actions/checkout@v3
 
-      - name: Set Up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.3 # Configura o Google Cloud SDK
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2.0.0
         with:
-          service_account_key: ${{ secrets.GCP_SA_KEY }} # Usa a chave da conta de serviço armazenada nos segredos do GitHub
-          project_id: ${{ secrets.GCP_PROJECT_ID }} # Define o ID do projeto
-          export_default_credentials: true # Exporta as credenciais para serem usadas pelos comandos do gcloud
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - name: Install Python Dependencies
         run: |
-          python -m pip install --upgrade pip # Atualiza o pip
-          pip install google-cloud-bigquery google-cloud-bigquery-datatransfer # Instala os pacotes do BigQuery
+          python -m pip install --upgrade pip
+          pip install google-cloud-bigquery google-cloud-bigquery-datatransfer
 
       - name: Modify Scheduled Query
-        run: python scripts/modify_scheduled_query.py # Executa o script para modificar a consulta agendada
+        run: python scripts/modify_scheduled_query.py
         env:
-          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }} # Define o ID do projeto como uma variável de ambiente
-          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }} # Define a chave da conta de serviço como uma variável de ambiente
-          QUERY_FILE: 'queries/precos-produtos.sql' # Define o arquivo da consulta SQL
-          SCHEDULED_QUERY_NAME: 'precos_produtos' # Define o nome da consulta agendada
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          QUERY_FILE: 'queries/precos-produtos.sql'
+          SCHEDULED_QUERY_NAME: 'precos_produtos'
