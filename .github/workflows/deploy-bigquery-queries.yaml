@@ -3,7 +3,7 @@ name: Deploy BigQuery Queries
 on:
   push:
     branches:
-      - master # ajuste de acordo com sua branch principal
+      - main # ajuste de acordo com sua branch principal
 
 jobs:
   deploy_queries:
