@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v2 # Faz checkout do código do seu repositório
+        uses: actions/checkout@v3 # Faz checkout do código do seu repositório
 
       - name: Set Up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2 # Configura o Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.3 # Configura o Google Cloud SDK
         with:
           service_account_key: ${{ secrets.GCP_SA_KEY }} # Usa a chave da conta de serviço armazenada nos segredos do GitHub
           project_id: ${{ secrets.GCP_PROJECT_ID }} # Define o ID do projeto
