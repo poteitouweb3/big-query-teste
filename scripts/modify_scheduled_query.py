@@ -1,3 +1,8 @@
+from google.cloud import bigquery_datatransfer_v1 as bqdts
+from google.protobuf import field_mask_pb2
+import google.auth
+import os
+
 # Certifique-se de que as credenciais e o projeto são passados para o cliente
 project_id = os.getenv('GCP_PROJECT_ID')
 credentials, _ = google.auth.default()
