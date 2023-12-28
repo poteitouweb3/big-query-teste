@@ -23,9 +23,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install google-cloud-bigquery google-cloud-bigquery-datatransfer
 
-      - name: Modify Scheduled Query
+      - name: Modify Scheduled Queries
         run: python scripts/modify_scheduled_query.py
         env:
           GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
           QUERY_FILE: 'queries/precos-produtos.sql'
-          SCHEDULED_QUERY_NAME: 'precos_produtos'
+          SCHEDULED_QUERIES: 'precos_produtos,imposto_matricula'
